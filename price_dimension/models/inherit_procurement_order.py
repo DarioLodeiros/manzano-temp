@@ -126,10 +126,10 @@ class procurement_order(models.Model):
         self.ensure_one()
         res = super(procurement_order, self)._prepare_purchase_order_line(po=po, supplier=supplier)
 
-        product_id = self.product_id.with_context(
-            width=self.manzano_width,
-            height=self.manzano_height
-        )
+        #~ product_id = self.product_id.with_context(
+            #~ width=self.manzano_width,
+            #~ height=self.manzano_height
+        #~ )
 
         procurement_uom_po_qty = self.env['product.uom']._compute_qty_obj(self.product_uom, self.product_qty, self.product_id.uom_po_id)
         seller = product_id._select_seller(
@@ -152,11 +152,11 @@ class procurement_order(models.Model):
         if taxes_id:
             taxes_id = taxes_id.filtered(lambda x: x.company_id.id == self.company_id.id)
 
-        name = res['name']
-        if product_id.sale_price_type in ['table_2d', 'area']:
-            name += ' [Width:%.2f cms x Height:%.2f cms]' % (self.manzano_width, self.manzano_height)
-        elif product_id.sale_price_type == 'table_1d':
-            name += ' [	Width:%.2f cms]' % (self.manzano_width)
+        #~ name = res['name']
+        #~ if product_id.sale_price_type in ['table_2d', 'area']:
+            #~ name += ' [Width:%.2f cms x Height:%.2f cms]' % (self.manzano_width, self.manzano_height)
+        #~ elif product_id.sale_price_type == 'table_1d':
+            #~ name += ' [  Width:%.2f cms]' % (self.manzano_width)
 
         price_unit = self.env['account.tax']._fix_tax_included_price(seller.get_supplier_price()[seller.id], product_id.supplier_taxes_id, taxes_id) if seller else 0.0
         if price_unit and seller and po.currency_id and seller.currency_id != po.currency_id:
@@ -165,8 +165,8 @@ class procurement_order(models.Model):
         res.update({
             'name': name,
             'price_unit': price_unit,
-            'manzano_width': self.manzano_width,
-            'manzano_height': self.manzano_height
+            #~ 'manzano_width': self.manzano_width,
+            #~ 'manzano_height': self.manzano_height
         })
 
         return res

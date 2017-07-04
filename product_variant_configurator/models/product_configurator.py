@@ -153,8 +153,8 @@ class ProductConfigurator(models.AbstractModel):
                 obj = self.env['product.template'].with_context(
                     lang=self.partner_id.lang)
                 product_tmpl = obj.browse(self.product_tmpl_id.id)
-            self.name = self._get_product_description(
-                product_tmpl, False, values)
+            #~ self.name = self._get_product_description(
+                #~ product_tmpl, False, values)
         return {'domain': {'product_id': domain}}
 
     @api.onchange('product_id')
